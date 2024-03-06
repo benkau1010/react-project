@@ -1,12 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
+import {useState} from 'react';
 
 function App() {
+  const [numQuestionsToDisplay, setNumQuestionsToDisplay] = useState(0);
+
+  const handleClick = () => {
+    console.log(numQuestionsToDisplay);
+    setNumQuestionsToDisplay(numQuestionsToDisplay + 1);
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <MyForm/>
+        <MyForm numQuestions={numQuestionsToDisplay} handleFunction={handleClick}/>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
@@ -32,17 +40,16 @@ function MyInput(props) {
 }
 
 function MySubmit(props) {
-  return <button>{props.text}</button>
+  return <button onClick={props.handleFunction}>{props.text}</button>
 }
 
-function MyForm() {
+function MyForm(props) {
   return <>
-  <MyInput text1="What is your favorite movie?" text2="My favorite movie is..."/>
-  <MyInput text1="What is your favorite class?" text2="My favorite class is..."/>
-  <MyInput text1="What is your favorite food" text2="My favorite food is..."/>
+  {props.numQuestions >= 1&&<MyInput text1="What is your favorite movie?" text2="My favorite movie is..."/>}
+  {props.numQuestions >= 2&&<MyInput text1="What is your favorite class?" text2="My favorite class is..."/>}
+  {props.numQuestions >= 3&&<MyInput text1="What is your favorite food"   text2="My favorite food is..." />}
   <p></p>
-  <MySubmit text="Submit"/>
-  <MySubmit text="Cancel"/>
+  <MySubmit text="Submit" handleFunction={props.handleFunction}/>
   </>
 }
 
